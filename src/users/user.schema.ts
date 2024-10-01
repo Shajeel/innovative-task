@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
+import {Project} from "../projects/project.schema";
+import {Task} from "../tasks/task.schema";
 
 export type UserDocument = User & Document;
 
@@ -15,8 +17,11 @@ export class User {
     @Prop({ enum: ['admin', 'user'], default: 'user' })
     role: string;
 
-    @Prop({ type: [{ type: String, ref: 'Project' }] })
-    projects: string[];
+    @Prop({ type: [Project], default: [] })
+    projects: Project[];
+
+    @Prop({ type: [{ type: String, ref: 'Task' }] })
+    tasks: Task[];
 
     @Prop({ default: Date.now })
     createdAt: Date;
